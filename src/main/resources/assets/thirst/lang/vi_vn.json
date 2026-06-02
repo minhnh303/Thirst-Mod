@@ -1,0 +1,23 @@
+{
+  "death.attack.dehydrate": "%1$s đã chết vì mất nước",
+  "death.attack.dehydrate.player": "%1$s đã chết vì mất nước trong khi chiến đấu với %2$s",
+  "item.thirst.wooden_water_bowl": "Bát nước bằng gỗ",
+  "item.thirst.terracotta_water_bowl": "Bát nước bằng đất nung",
+  "item.thirst.terracotta_bowl": "Bát đất nung",
+  "item.thirst.clay_bowl": "Bát đất sét",
+  "itemGroup.thirst": "Thirst was Taken",
+  "thirst.purity.dirty": "Bẩn",
+  "thirst.purity.slightly_dirty": "Hơi bẩn",
+  "thirst.purity.acceptable": "Chấp nhận được",
+  "thirst.purity.purified": "Đã lọc tinh khiết",
+  "block.thirst.sand_filter": "Bộ lọc cát",
+
+  "thirst.ponder.sand_filter.header": "Lọc nước bằng Bộ lọc cát",
+  "thirst.ponder.sand_filter.text_1": "Bộ lọc cát sẽ làm sạch nước được bơm qua nó một cấp độ",
+  "thirst.ponder.sand_filter.text_2": "Nước bẩn cần được bơm vào từ phía trên...",
+  "thirst.ponder.sand_filter.text_3": "và nước đã lọc sạch có thể được bơm ra từ phía dưới",
+  "command.thirst.query": "Độ khát hiện tại: %1$s, Độ đã khát hiện tại: %2$s",
+  "command.thirst.set": "đặt độ khát thành %1$s, đặt độ đã khát thành %2$s",
+  "command.thirst.enable": "Bật tính năng tính thời gian Khát cho %1$s",
+  "command.thirst.disable": "Tắt tính năng tính thời gian Khát cho %1$s"
+}

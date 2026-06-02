@@ -13,6 +13,7 @@ import dev.ghen.thirst.foundation.gui.appleskin.HUDOverlayHandler;
 import dev.ghen.thirst.foundation.gui.appleskin.TooltipOverlayHandler;
 import dev.ghen.thirst.foundation.network.ThirstModPacketHandler;
 import dev.ghen.thirst.foundation.tab.ThirstTab;
+import dev.ghen.thirst.foundation.common.loot.ModLootModifiers;
 import net.createmod.ponder.foundation.PonderIndex;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.client.event.RegisterClientTooltipComponentFactoriesEvent;
@@ -58,6 +59,8 @@ public class Thirst
         }
 
         ThirstTab.register(modBus);
+
+        ModLootModifiers.LOOT_MODIFIERS.register(modBus);
 
         //configs
         ItemSettingsConfig.setup();

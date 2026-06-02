@@ -535,7 +535,12 @@ public class WaterPurity
         }
         else if(level.getBlockState(pos).is(Blocks.WATER_CAULDRON))
         {
-            return level.getBlockState(pos).getValue(BLOCK_PURITY) - 1;
+            BlockState cauldronState = level.getBlockState(pos);
+            if (cauldronState.hasProperty(BLOCK_PURITY)) {
+                int val = cauldronState.getValue(BLOCK_PURITY);
+                return val == 0 ? CommonConfig.DEFAULT_PURITY.get() : val - 1;
+            }
+            return CommonConfig.DEFAULT_PURITY.get();
         }
         else
             return CommonConfig.DEFAULT_PURITY.get();
@@ -651,9 +656,6 @@ public class WaterPurity
         DispenseItemBehavior bucketDefaultBehaviour = (DispenseItemBehavior) ReflectionUtil.fuckYouReflections(getDispenseMethod, Blocks.DISPENSER, new ItemStack(Items.BUCKET));
         DispenseItemBehavior bottleDefaultBehaviour = (DispenseItemBehavior) ReflectionUtil.fuckYouReflections(getDispenseMethod, Blocks.DISPENSER, new ItemStack(Items.GLASS_BOTTLE));
 
-        //mappings (the default is execute)
-        Method execute = ObfuscationReflectionHelper.findMethod(DefaultDispenseItemBehavior.class, "m_7498_", BlockSource.class, ItemStack.class);
-
         DispenserBlock.registerBehavior(Items.BUCKET, (block, item) ->
         {
             Level level = block.getLevel();
@@ -664,7 +666,7 @@ public class WaterPurity
                 return getStack(block, item, level, blockpos, result,true);
             }
             else
-                return (ItemStack) ReflectionUtil.fuckYouReflections(execute, bucketDefaultBehaviour, block, item);
+                return bucketDefaultBehaviour.dispense(block, item);
 
         });
 
@@ -679,7 +681,7 @@ public class WaterPurity
                 return getStack(block, item, level, blockpos, result,false);
             }
             else
-                return (ItemStack) ReflectionUtil.fuckYouReflections(execute, bottleDefaultBehaviour, block, item);
+                return bottleDefaultBehaviour.dispense(block, item);
         });
     }
 
