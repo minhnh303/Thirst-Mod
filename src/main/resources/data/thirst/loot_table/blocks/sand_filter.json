@@ -1,0 +1,33 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "forge:condition": {
+        "type": "forge:and",
+        "values": [
+          {
+            "type": "forge:mod_loaded",
+            "modid": "create"
+          },
+          {
+            "type": "forge:item_exists",
+            "item": "thirst:sand_filter"
+          }
+        ]
+      },
+      "bonus_rolls": 0.0,
+      "conditions": [
+        {
+          "condition": "minecraft:survives_explosion"
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "thirst:sand_filter"
+        }
+      ],
+      "rolls": 1.0
+    }
+  ]
+}

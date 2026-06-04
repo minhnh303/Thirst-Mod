@@ -1,0 +1,23 @@
+{
+  "forge:condition": {
+    "type": "forge:mod_loaded",
+    "modid": "toughasnails"
+  },
+  "type": "minecraft:smelting",
+  "ingredient": {
+    "item": "toughasnails:dirty_water_bottle"
+  },
+  "result": {
+    "id": "minecraft:potion",
+    "components": {
+      "minecraft:potion_contents": {
+        "potion": "minecraft:water"
+      },
+      "minecraft:custom_data": {
+        "Purity": 2
+      }
+    }
+  },
+  "experience": 0.35,
+  "cookingtime": 200
+}

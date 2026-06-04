@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:smelting",
+  "ingredient": {
+    "type": "forge:nbt",
+    "stack": {
+      "id": "minecraft:potion",
+      "components": {
+        "minecraft:potion_contents": {
+          "potion": "minecraft:water"
+        },
+        "minecraft:custom_data": {
+          "Purity": 0
+        }
+      }
+    }
+  },
+  "result": {
+    "id": "minecraft:potion",
+    "components": {
+      "minecraft:potion_contents": {
+        "potion": "minecraft:water"
+      },
+      "minecraft:custom_data": {
+        "Purity": 2
+      }
+    }
+  },
+  "experience": 0.35,
+  "cookingtime": 200
+}

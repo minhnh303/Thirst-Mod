@@ -6,10 +6,8 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.event.network.CustomPayloadEvent;
 import net.minecraftforge.fml.DistExecutor;
-import net.minecraftforge.network.NetworkEvent;
-
-import java.util.function.Supplier;
 
 public class PlayerThirstSyncMessage
 {
@@ -44,13 +42,11 @@ public class PlayerThirstSyncMessage
         return new PlayerThirstSyncMessage(buffer.readInt(), buffer.readInt(), buffer.readFloat(),buffer.readBoolean());
     }
 
-    public static void handle(PlayerThirstSyncMessage message, Supplier<NetworkEvent.Context> contextSupplier)
+    public static void handle(PlayerThirstSyncMessage message, CustomPayloadEvent.Context context)
     {
-        NetworkEvent.Context context = contextSupplier.get();
-
-        if (context.getDirection().getReceptionSide().isClient())
+        if (context.isClientSide())
         {
-            context.enqueueWork(() -> DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> ClientThirstSyncMessage.handlePacket(message, contextSupplier)));
+            context.enqueueWork(() -> DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> ClientThirstSyncMessage.handlePacket(message)));
         }
 
         context.setPacketHandled(true);
@@ -60,7 +56,7 @@ public class PlayerThirstSyncMessage
 @OnlyIn(Dist.CLIENT)
 class ClientThirstSyncMessage
 {
-    public static void handlePacket(PlayerThirstSyncMessage message, Supplier<NetworkEvent.Context> contextSupplier)
+    public static void handlePacket(PlayerThirstSyncMessage message)
     {
         Player player = Minecraft.getInstance().player;
 

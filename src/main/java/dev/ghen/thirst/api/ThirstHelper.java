@@ -1,6 +1,7 @@
 package dev.ghen.thirst.api;
 
 import com.momosoftworks.coldsweat.api.util.Temperature;
+import com.mojang.logging.LogUtils;
 import dev.ghen.thirst.content.purity.ContainerWithPurity;
 import dev.ghen.thirst.content.purity.WaterPurity;
 import dev.ghen.thirst.foundation.common.event.RegisterThirstValueEvent;
@@ -12,14 +13,20 @@ import dev.ghen.thirst.foundation.config.KeyWordConfig;
 import dev.ghen.thirst.foundation.util.ConfigHelper;
 import dev.ghen.thirst.foundation.util.LoadedValue;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.component.PatchedDataComponentMap;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
+import net.minecraftforge.registries.ForgeRegistries;
+import org.slf4j.Logger;
 
 import java.util.List;
 import java.util.Map;
@@ -30,6 +37,7 @@ import static dev.ghen.thirst.content.purity.WaterPurity.hasPurity;
 
 public class ThirstHelper
 {
+    private static final Logger LOGGER = LogUtils.getLogger();
     private static boolean useColdSweatCaps = false;
     private static final float MODIFIER_HARSHNESS = 0.5f;
     public static Map<Item, Number[]> VALID_DRINKS = LoadedValue.of(() -> ConfigHelper
@@ -52,9 +60,30 @@ public class ThirstHelper
         }
 
         VALID_DRINKS.forEach((item, numbers) -> {
-            if (item.getFoodProperties() != null) {
+            FoodProperties foodProperties = item.components().get(DataComponents.FOOD);
+            if (foodProperties != null) {
                 if (!CommonConfig.ENABLE_DRINKS_NUTRITION.get()){
-                    item.getFoodProperties().nutrition = 0;
+                    FoodProperties withoutNutrition = new FoodProperties(
+                            0,
+                            foodProperties.saturation(),
+                            foodProperties.canAlwaysEat(),
+                            foodProperties.eatSeconds(),
+                            foodProperties.usingConvertsTo(),
+                            foodProperties.effects()
+                    );
+
+                    if(item.components() instanceof PatchedDataComponentMap components)
+                    {
+                        components.set(DataComponents.FOOD, withoutNutrition);
+                    }
+                    else
+                    {
+                        LOGGER.debug(
+                                "Thirst drink nutrition patch skipped: item={} componentMap={}",
+                                ForgeRegistries.ITEMS.getKey(item),
+                                item.components().getClass().getName()
+                        );
+                    }
                 }
             }
         });
@@ -123,10 +152,7 @@ public class ThirstHelper
     {
         if(!hasPurity(item))
             return CommonConfig.DEFAULT_PURITY.get();
-        else {
-            assert item.getTag() != null;
-            return item.getTag().getInt("Purity");
-        }
+        return WaterPurity.getPurity(item);
     }
 
     public static void shouldUseColdSweatCaps(boolean should)
@@ -136,7 +162,10 @@ public class ThirstHelper
     public static float getExhaustionFireProtModifier(Player player)
     {
         final float perLevelMultiplier = 0.0625f;
-        int totalLevels = EnchantmentHelper.getDamageProtection(player.getArmorSlots(), player.damageSources().onFire()) / 2;
+        if (!(player.level() instanceof ServerLevel serverLevel))
+            return 1.0f;
+
+        int totalLevels = (int) EnchantmentHelper.getDamageProtection(serverLevel, player, player.damageSources().onFire()) / 2;
         //In some situations, the player can have more than 12 levels of fire protection due to some bugs
         if(totalLevels>12) totalLevels=12;
         return 1.0f - ((totalLevels * perLevelMultiplier) * 0.75f);
@@ -210,7 +239,7 @@ public class ThirstHelper
         if(!KeyWordConfig.ENABLE_KEYWORD_CONFIG.get())
             return false;
 
-        if(!itemStack.isEdible())
+        if(!itemStack.has(DataComponents.FOOD))
             return false;
 
         String pattern = keywordBlackList;

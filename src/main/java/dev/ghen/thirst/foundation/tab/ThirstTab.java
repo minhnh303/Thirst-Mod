@@ -6,14 +6,10 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.alchemy.PotionUtils;
-import net.minecraft.world.item.alchemy.Potions;
 import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.fml.ModList;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
 import dev.ghen.thirst.Thirst;
-import dev.ghen.thirst.compat.create.CreateRegistry;
 import dev.ghen.thirst.content.purity.WaterPurity;
 
 import java.util.ArrayList;
@@ -42,20 +38,16 @@ public class ThirstTab
         list.add(WaterPurity.addPurity(new ItemStack(Items.WATER_BUCKET), 1));
         list.add(WaterPurity.addPurity(new ItemStack(Items.WATER_BUCKET), 2));
         list.add(WaterPurity.addPurity(new ItemStack(Items.WATER_BUCKET), 3));
-        list.add(WaterPurity.addPurity(PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.WATER), 0));
-        list.add(WaterPurity.addPurity(PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.WATER), 1));
-        list.add(WaterPurity.addPurity(PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.WATER), 2));
-        list.add(WaterPurity.addPurity(PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.WATER), 3));
+        list.add(WaterPurity.addPurity(WaterPurity.waterPotion(), 0));
+        list.add(WaterPurity.addPurity(WaterPurity.waterPotion(), 1));
+        list.add(WaterPurity.addPurity(WaterPurity.waterPotion(), 2));
+        list.add(WaterPurity.addPurity(WaterPurity.waterPotion(), 3));
         list.add(ItemInit.CLAY_BOWL.get().getDefaultInstance());
         list.add(ItemInit.TERRACOTTA_BOWL.get().getDefaultInstance());
         list.add(WaterPurity.addPurity(new ItemStack(ItemInit.TERRACOTTA_WATER_BOWL.get()), 0));
         list.add(WaterPurity.addPurity(new ItemStack(ItemInit.TERRACOTTA_WATER_BOWL.get()), 1));
         list.add(WaterPurity.addPurity(new ItemStack(ItemInit.TERRACOTTA_WATER_BOWL.get()), 2));
         list.add(ItemInit.TERRACOTTA_WATER_BOWL.get().getDefaultInstance());
-
-        // for some fucking reason the game crashes if you don't do it here
-        if(ModList.get().isLoaded("create"))
-            list.add(CreateRegistry.SAND_FILTER_BLOCK.asStack());
 
         return list;
     }

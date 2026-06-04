@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:smelting",
+  "ingredient": {
+    "type": "forge:nbt",
+    "stack": {
+      "id": "minecraft:water_bucket",
+      "components": {
+        "minecraft:custom_data": {
+          "Purity": 0
+        }
+      }
+    }
+  },
+  "result": {
+    "id": "minecraft:water_bucket",
+    "components": {
+      "minecraft:custom_data": {
+        "Purity": 2
+      }
+    }
+  },
+  "experience": 0.35,
+  "cookingtime": 200
+}

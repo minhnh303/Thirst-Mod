@@ -23,14 +23,14 @@ group = 'dev.ghen.thirst'
 
 java {
     archivesBaseName = 'YetAnotherThirst'
-    toolchain.languageVersion = JavaLanguageVersion.of(17)
+    toolchain.languageVersion = JavaLanguageVersion.of(21)
 }
 compileJava {
     [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 }
 
 minecraft {
-    mappings channel: 'official', version: '1.20.1'
+    mappings channel: 'official', version: mc_version
     accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
     runs {
         client {
@@ -99,8 +99,31 @@ minecraft {
 }
 
 sourceSets.main.resources { srcDir 'src/generated/resources' }
+sourceSets.main.java {
+    exclude 'dev/ghen/thirst/compat/create/**'
+    exclude 'dev/ghen/thirst/foundation/mixin/accessors/brewinandchewin/**'
+    exclude 'dev/ghen/thirst/foundation/mixin/botania/**'
+    exclude 'dev/ghen/thirst/foundation/mixin/brewinandchewin/**'
+    exclude 'dev/ghen/thirst/foundation/mixin/create/**'
+    exclude 'dev/ghen/thirst/foundation/mixin/farmersrespite/**'
+}
 
 repositories {
+    exclusiveContent {
+        forRepository {
+            maven {
+                name = "Minecraft Libraries"
+                url = "https://libraries.minecraft.net"
+                metadataSources {
+                    artifact()
+                }
+            }
+        }
+        filter {
+            includeGroup "org.lwjgl"
+        }
+    }
+    mavenCentral()
     maven {
         url "https://cursemaven.com"
         content {
@@ -125,22 +148,22 @@ repositories {
 }
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.20.1-47.4.0'
+    minecraft "net.minecraftforge:forge:${mc_version}-${forge_version}"
 
-    implementation fg.deobf("com.simibubi.create:create-1.20.1:6.0.2-112:slim") { transitive = false }
-    implementation fg.deobf("net.createmod.ponder:Ponder-Forge-1.20.1:1.0.51") { transitive = false }
-    implementation fg.deobf("com.tterrag.registrate:Registrate:MC1.20-1.3.3")
-    runtimeOnly fg.deobf("dev.engine-room.flywheel:flywheel-forge-1.20.1:1.0.1")
+    compileOnly fg.deobf("com.simibubi.create:create-1.20.1:6.0.2-112:slim") { transitive = false }
+    compileOnly fg.deobf("net.createmod.ponder:Ponder-Forge-1.20.1:1.0.51") { transitive = false }
+    compileOnly fg.deobf("com.tterrag.registrate:Registrate:MC1.20-1.3.3")
+    compileOnly fg.deobf("dev.engine-room.flywheel:flywheel-forge-1.20.1:1.0.1")
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
-    implementation fg.deobf("curse.maven:appleskin-248787:4605078")
-    implementation fg.deobf("curse.maven:cold-sweat-506194:4787218")
-    implementation fg.deobf("curse.maven:farmers-delight-398521:5051242")
-    implementation fg.deobf("curse.maven:farmers-respite-551453:5543547")
-    implementation fg.deobf("curse.maven:brewin-and-chewin-637808:6237884")
+    compileOnly fg.deobf("curse.maven:appleskin-248787:4605078")
+    compileOnly fg.deobf("curse.maven:cold-sweat-506194:4787218")
+    compileOnly fg.deobf("curse.maven:farmers-delight-398521:5051242")
+    compileOnly fg.deobf("curse.maven:farmers-respite-551453:5543547")
+    compileOnly fg.deobf("curse.maven:brewin-and-chewin-637808:6237884")
 //    implementation fg.deobf("curse.maven:create-central-kitchen-820977:5232178")
-    implementation fg.deobf("curse.maven:glitchcore-955399:5787839")
-    implementation fg.deobf("curse.maven:tough-as-nails-246391:5815863")
-    implementation fg.deobf("curse.maven:jade-324717:4768593")
+    compileOnly fg.deobf("curse.maven:glitchcore-955399:5787839")
+    compileOnly fg.deobf("curse.maven:tough-as-nails-246391:5815863")
+    compileOnly fg.deobf("curse.maven:jade-324717:4768593")
     compileOnly fg.deobf("curse.maven:vampirism-become-a-vampire-233029:4783000")
     compileOnly fg.deobf("curse.maven:botania-225643:6172172")
 
@@ -149,12 +172,17 @@ dependencies {
     runtimeOnly(fg.deobf("mezz.jei:jei-${mc_version}-forge:${jei_version}"))
 }
 
+configurations.configureEach {
+    resolutionStrategy.force 'net.sf.jopt-simple:jopt-simple:5.0.4'
+}
+
 mixin {
     add sourceSets.main, "thirst.refmap.json"
     config 'thirst.mixin.json'
 }
 
 jar {
+    from("build/tmp/compileJava/thirst.refmap.json")
     manifest {
         attributes([
                 "Specification-Title"     : "thirst",
@@ -168,8 +196,6 @@ jar {
         ])
     }
 }
-
-jar.finalizedBy('reobfJar')
 
 publishing {
     publications {

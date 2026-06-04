@@ -1,0 +1,23 @@
+{
+  "forge:condition": {
+    "type": "forge:mod_loaded",
+    "modid": "toughasnails"
+  },
+  "type": "minecraft:campfire_cooking",
+  "ingredient": {
+    "item": "toughasnails:dirty_water_bottle"
+  },
+  "result": {
+    "id": "minecraft:potion",
+    "components": {
+      "minecraft:potion_contents": {
+        "potion": "minecraft:water"
+      },
+      "minecraft:custom_data": {
+        "Purity": 1
+      }
+    }
+  },
+  "experience": 0.35,
+  "cookingtime": 300
+}

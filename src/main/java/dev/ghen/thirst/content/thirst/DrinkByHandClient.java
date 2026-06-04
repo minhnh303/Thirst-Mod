@@ -15,6 +15,7 @@ import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.network.PacketDistributor;
 
 @OnlyIn(Dist.CLIENT)
 public class DrinkByHandClient
@@ -37,7 +38,7 @@ public class DrinkByHandClient
             }
             if(HandAvailable){
                 level.playSound(player, player.getX(), player.getY(), player.getZ(), SoundEvents.GENERIC_DRINK, SoundSource.NEUTRAL, 1.0F, 1.0F);
-                ThirstModPacketHandler.INSTANCE.sendToServer(new DrinkByHandMessage(blockPos));
+                ThirstModPacketHandler.INSTANCE.send(new DrinkByHandMessage(blockPos), PacketDistributor.SERVER.noArg());
             }
         }
     }

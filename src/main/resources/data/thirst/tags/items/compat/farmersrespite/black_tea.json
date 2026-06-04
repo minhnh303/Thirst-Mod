@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    {
+      "id": "farmersrespite:black_tea",
+      "required": false
+    }
+  ]
+}

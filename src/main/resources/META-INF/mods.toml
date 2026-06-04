@@ -2,32 +2,32 @@
 # Note that there are a couple of TOML lists in this file.
 # Find more information on toml format here:  https://github.com/toml-lang/toml
 modLoader="javafml"
-loaderVersion="[46,)"
+loaderVersion="[51,)"
 license="MIT license"
-issueTrackerURL="https://github.com/ghen-git/Thirst-Mod/issues"
+issueTrackerURL="https://github.com/minhnh303/Thirst-Mod/issues"
 [[mods]]
 modId="thirst"
 version="${file.jarVersion}"
-displayName="Thirst was Taken"
+displayName="Yet Another Thirst"
 # A URL to query for updates for this mod. See the JSON update specification https://mcforge.readthedocs.io/en/latest/gettingstarted/autoupdate/
 #updateJSONURL="https://change.me.example.invalid/updates.json" #optional
-displayURL="https://github.com/ghen-git/Thirst-Mod"
-logoFile="thirstwastaken.png"
-credits="Cold Sweat, Create, Farmer's Delight and all the mods' sources that helped me actually program this."
-authors="ghen"
+displayURL="https://github.com/minhnh303/Thirst-Mod"
+logoFile="yetanotherthirst.png"
+credits="Thanks to ghen-git and mlus-asuka for the original code."
+authors="MinhNH"
 description='''
 Modern take on the thirst-bar mechanic, compatible with a lot of contemporary mods
 '''
 [[dependencies.thirst]]
     modId="forge"
     mandatory=true
-    versionRange="[47.3.0,)"
+    versionRange="[51.0.33,)"
     ordering="NONE"
     side="BOTH"
 [[dependencies.thirst]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.20,1.20.2)"
+    versionRange="[1.21,1.21.1)"
     ordering="NONE"
     side="BOTH"
 [[dependencies.thirst]]

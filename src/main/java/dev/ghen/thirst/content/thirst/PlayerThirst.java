@@ -17,7 +17,6 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.network.PacketDistributor;
-import vectorwing.farmersdelight.common.registry.ModEffects;
 
 public class PlayerThirst implements IThirst
 {
@@ -123,7 +122,8 @@ public class PlayerThirst implements IThirst
         if(checkVampirismEffects && Helper.isVampire(player))
             return;
 
-        boolean isNourished = checkFDEffects && player.hasEffect(ModEffects.NOURISHMENT.get());
+        boolean isNourished = checkFDEffects &&
+                player.getActiveEffects().stream().anyMatch(e -> e.getDescriptionId().contains("nourishment"));
         boolean isHunger = player.hasEffect(MobEffects.HUNGER);
         boolean isStuffed = checkLetsDoBakeryEffects &&
                 player.getActiveEffects().stream().anyMatch(e -> e.getDescriptionId().contains("stuffed"));
@@ -207,8 +207,9 @@ public class PlayerThirst implements IThirst
 
     public void updateThirstData(Player player)
     {
-        ThirstModPacketHandler.INSTANCE.send(PacketDistributor.PLAYER.with(() -> (ServerPlayer) player),
-                new PlayerThirstSyncMessage(thirst, quenched, exhaustion,shouldTickThirst));
+        ThirstModPacketHandler.INSTANCE.send(
+                new PlayerThirstSyncMessage(thirst, quenched, exhaustion, shouldTickThirst),
+                PacketDistributor.PLAYER.with((ServerPlayer) player));
     }
 
     @Override

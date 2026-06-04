@@ -67,8 +67,9 @@ public class CommandInit {
                                     for(ServerPlayer player:players){
                                         IThirst thirstData =  player.getCapability(ModCapabilities.PLAYER_THIRST).orElse(null);
                                         thirstData.setShouldTickThirst(shouldTick);
-                                        ThirstModPacketHandler.INSTANCE.send(PacketDistributor.PLAYER.with(() -> player),
-                                                new PlayerThirstSyncMessage(shouldTick));
+                                        ThirstModPacketHandler.INSTANCE.send(
+                                                new PlayerThirstSyncMessage(shouldTick),
+                                                PacketDistributor.PLAYER.with(player));
                                         playersName.add(player.getName());
                                     }
 

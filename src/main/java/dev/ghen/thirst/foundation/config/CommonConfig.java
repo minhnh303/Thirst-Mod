@@ -68,7 +68,7 @@ public class CommonConfig
         BUILDER.pop();
 
         BUILDER.push("Drinking Mechanics");
-        WATER_BOTTLE_STACKSIZE = BUILDER.comment("Stack size for water bottles").define("waterBottleStacksize", 64);
+        WATER_BOTTLE_STACKSIZE = BUILDER.comment("Stack size for water bottles").defineInRange("waterBottleStacksize", 16, 1, 99);
         DEHYDRATION_HALTS_HEALTH_REGEN = BUILDER.comment("Whether the player can't regenerate as fast when hydration isn't full (like hunger)").define("dehydrationHaltsHealthRegen", true);
         HEALTH_REGEN_DEPLETES_HYDRATION = BUILDER.comment("Whether hydration depletes when the player's health is regenerating (like hunger)").define("healthRegenDepletesHydration", true);
         HEALTH_REGEN_DEHYDRATION_IS_BIOME_DEPENDENT = BUILDER.comment("Whether dehydration from regenerating health (if enabled above) should take into account temperature and humidity").define("healthRegenDehydrationIsBiomeDependent", true);

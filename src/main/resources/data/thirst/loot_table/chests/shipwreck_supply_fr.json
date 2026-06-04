@@ -1,0 +1,39 @@
+{
+  "type": "minecraft:chest",
+  "pools": [
+    {
+      "forge:condition": {
+        "type": "forge:mod_loaded",
+        "modid": "farmersrespite"
+      },
+      "bonus_rolls": 0.0,
+      "entries": [
+        {
+          "type": "minecraft:tag",
+          "functions": [
+            {
+              "function": "minecraft:set_custom_data",
+              "tag": "{Purity: 3}"
+            },
+            {
+              "count": {
+                "type": "minecraft:uniform",
+                "max": 3.0,
+                "min": 1.0
+              },
+              "function": "minecraft:set_count"
+            }
+          ],
+          "name": "thirst:compat/farmersrespite/black_tea",
+          "weight": 10,
+          "expand": true
+        },
+        {
+          "type": "minecraft:empty",
+          "weight": 20
+        }
+      ],
+      "rolls": 1
+    }
+  ]
+}

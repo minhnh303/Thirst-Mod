@@ -9,9 +9,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.network.NetworkEvent;
-
-import java.util.function.Supplier;
+import net.minecraftforge.event.network.CustomPayloadEvent;
 
 public class DrinkByHandMessage
 {
@@ -32,15 +30,15 @@ public class DrinkByHandMessage
         return new DrinkByHandMessage(buffer.readBlockPos());
     }
 
-    public static void handle(DrinkByHandMessage message, Supplier<NetworkEvent.Context> contextSupplier)
+    public static void handle(DrinkByHandMessage message, CustomPayloadEvent.Context context)
     {
-        NetworkEvent.Context context = contextSupplier.get();
-
-        if (context.getDirection().getReceptionSide().isServer())
+        if (context.isServerSide())
         {
             context.enqueueWork(() ->
             {
                 Player player = context.getSender();
+                if (player == null)
+                    return;
                 Level level = player.level();
 
                 player.getCapability(ModCapabilities.PLAYER_THIRST).ifPresent(cap ->

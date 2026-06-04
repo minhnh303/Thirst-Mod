@@ -1,0 +1,43 @@
+{
+  "type": "minecraft:chest",
+  "pools": [
+    {
+      "forge:condition": {
+        "type": "forge:mod_loaded",
+        "modid": "farmersrespite"
+      },
+      "bonus_rolls": 0.0,
+      "entries": [
+        {
+          "type": "minecraft:tag",
+          "functions": [
+            {
+              "function": "minecraft:set_custom_data",
+              "tag": "{Purity: 3}"
+            }
+          ],
+          "name": "thirst:compat/farmersrespite/dandelion_tea",
+          "weight": 10,
+          "expand": true
+        },
+        {
+          "type": "minecraft:tag",
+          "functions": [
+            {
+              "function": "minecraft:set_custom_data",
+              "tag": "{Purity: 3}"
+            }
+          ],
+          "name": "thirst:compat/farmersrespite/yellow_tea",
+          "weight": 10,
+          "expand": true
+        },
+        {
+          "type": "minecraft:empty",
+          "weight": 20
+        }
+      ],
+      "rolls": 1
+    }
+  ]
+}

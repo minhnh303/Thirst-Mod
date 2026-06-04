@@ -8,16 +8,13 @@ import dev.ghen.thirst.foundation.common.capability.ModCapabilities;
 import dev.ghen.thirst.foundation.config.ClientConfig;
 import dev.ghen.thirst.foundation.gui.ThirstBarRenderer;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.event.RenderGuiOverlayEvent;
-import net.minecraftforge.client.gui.overlay.ForgeGui;
-import net.minecraftforge.client.gui.overlay.GuiOverlayManager;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -46,39 +43,9 @@ public class HUDOverlayHandler {
         MinecraftForge.EVENT_BUS.register(new HUDOverlayHandler());
     }
 
-    @SubscribeEvent
-    public void onRenderGuiOverlayPre(RenderGuiOverlayEvent.Pre event) {
-        if (event.getOverlay() == GuiOverlayManager.findOverlay(THIRST_LEVEL_ELEMENT)) {
-            Minecraft mc = Minecraft.getInstance();
-            ForgeGui gui = (ForgeGui)mc.gui;
-            boolean isMounted = mc.player.getVehicle() instanceof LivingEntity;
-            boolean isAlive = mc.player.isAlive();
-            //stop getExhaustion when player is dead to prevent error log spam
-            if (isAlive && ModConfig.SHOW_FOOD_EXHAUSTION_UNDERLAY.get() && !isMounted && !mc.options.hideGui && gui.shouldDrawSurvivalElements() && !ThirstBarRenderer.cancelRender) {
-                renderExhaustion(gui, event.getGuiGraphics());
-            }
-        }
-
-    }
-
-    @SubscribeEvent
-    public void onRenderGuiOverlayPost(RenderGuiOverlayEvent.Post event) {
-        if (event.getOverlay() == GuiOverlayManager.findOverlay(THIRST_LEVEL_ELEMENT)) {
-            Minecraft mc = Minecraft.getInstance();
-            ForgeGui gui = (ForgeGui)mc.gui;
-            boolean isMounted = mc.player.getVehicle() instanceof LivingEntity;
-            boolean isAlive = mc.player.isAlive();
-
-            if (isAlive && !isMounted && !mc.options.hideGui && gui.shouldDrawSurvivalElements() && !ThirstBarRenderer.cancelRender) {
-                renderThirstOverlay(event.getGuiGraphics());
-            }
-        }
-
-    }
-
-    public static void renderExhaustion(ForgeGui gui, GuiGraphics mStack)
+    public static void renderExhaustion(Gui gui, GuiGraphics mStack)
     {
-        foodIconsOffset = gui.rightHeight;
+        foodIconsOffset = 49;
 
         Minecraft mc = Minecraft.getInstance();
         Player player = mc.player;

@@ -1,15 +1,15 @@
 package dev.ghen.thirst.foundation.common.loot;
 
 
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import net.minecraftforge.common.loot.IGlobalLootModifier;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
 public class ModLootModifiers {
-    public static final DeferredRegister<Codec<? extends IGlobalLootModifier>> LOOT_MODIFIERS;
-    public static final RegistryObject<Codec<? extends IGlobalLootModifier>> ADD_LOOT_TABLE;
+    public static final DeferredRegister<MapCodec<? extends IGlobalLootModifier>> LOOT_MODIFIERS;
+    public static final RegistryObject<MapCodec<? extends IGlobalLootModifier>> ADD_LOOT_TABLE;
 
     public ModLootModifiers() {
     }

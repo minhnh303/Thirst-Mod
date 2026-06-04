@@ -17,18 +17,23 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(BottleItem.class)
 public class MixinBottleItem
 {
-    @Inject(method = "turnBottleIntoItem", at = @At("RETURN"), cancellable = true)
+    @Inject(method = "turnBottleIntoItem", at = @At("HEAD"))
     public void onTurnBottleIntoItem(ItemStack source, Player player, ItemStack result, CallbackInfoReturnable<ItemStack> cir)
     {
-        ItemStack returned = cir.getReturnValue();
+        WaterPurity.removePurity(source);
+
+        if(!WaterPurity.isWaterPotion(result))
+            return;
+
+        WaterPurity.prepareWaterPotion(result);
+
         Level level = player.level();
         BlockPos fluidPos = MathHelper.getPlayerPOVHitResult(level, player, ClipContext.Fluid.SOURCE_ONLY).getBlockPos();
 
         if (level.getFluidState(fluidPos).is(FluidTags.WATER) && level.getFluidState(fluidPos).isSource())
         {
             int purity = WaterPurity.getBlockPurity(level, fluidPos);
-            WaterPurity.addPurity(returned, purity);
-            cir.setReturnValue(returned);
+            WaterPurity.addPurity(result, purity);
         }
     }
 }

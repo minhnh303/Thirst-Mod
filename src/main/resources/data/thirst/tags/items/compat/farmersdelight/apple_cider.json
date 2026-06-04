@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    {
+      "id": "farmersdelight:apple_cider",
+      "required": false
+    }
+  ]
+}

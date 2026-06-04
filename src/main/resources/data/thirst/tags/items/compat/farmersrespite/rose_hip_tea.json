@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    {
+      "id": "farmersrespite:rose_hip_tea",
+      "required": false
+    }
+  ]
+}

@@ -5,6 +5,8 @@ import dev.ghen.thirst.foundation.common.capability.IThirst;
 import dev.ghen.thirst.foundation.common.capability.ModCapabilities;
 import dev.ghen.thirst.foundation.common.item.DrinkableItem;
 import dev.ghen.thirst.foundation.config.CommonConfig;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
@@ -60,13 +62,13 @@ public class PlayerThirstManager
                 }
 
                 @Override
-                public CompoundTag serializeNBT()
+                public CompoundTag serializeNBT(HolderLookup.Provider provider)
                 {
                     return playerThirstCap.serializeNBT();
                 }
 
                 @Override
-                public void deserializeNBT(CompoundTag nbt)
+                public void deserializeNBT(HolderLookup.Provider provider, CompoundTag nbt)
                 {
                     playerThirstCap.deserializeNBT(nbt);
                 }
@@ -97,7 +99,7 @@ public class PlayerThirstManager
         {
             if(event.getItem().getItem() instanceof PotionItem)
                 return;
-            if(event.getItem().getItem().isEdible())
+            if(event.getItem().has(DataComponents.FOOD))
                 return;
             if(event.getItem().getItem() instanceof DrinkableItem)
                 return;

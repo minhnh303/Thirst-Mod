@@ -1,8 +1,6 @@
 package dev.ghen.thirst;
 
 import dev.ghen.thirst.api.ThirstHelper;
-import dev.ghen.thirst.compat.create.CreateRegistry;
-import dev.ghen.thirst.compat.create.ponder.ThirstPonderPlugin;
 import dev.ghen.thirst.content.purity.WaterPurity;
 import dev.ghen.thirst.content.registry.ItemInit;
 import dev.ghen.thirst.content.thirst.PlayerThirst;
@@ -14,7 +12,6 @@ import dev.ghen.thirst.foundation.gui.appleskin.TooltipOverlayHandler;
 import dev.ghen.thirst.foundation.network.ThirstModPacketHandler;
 import dev.ghen.thirst.foundation.tab.ThirstTab;
 import dev.ghen.thirst.foundation.common.loot.ModLootModifiers;
-import net.createmod.ponder.foundation.PonderIndex;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.client.event.RegisterClientTooltipComponentFactoriesEvent;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
@@ -41,8 +38,6 @@ public class Thirst
         modBus.addListener(this::registerCapabilities);
 
         if(FMLEnvironment.dist.isClient()){
-            modBus.addListener(ThirstBarRenderer::registerThirstOverlay);
-
             if(ModList.get().isLoaded("appleskin"))
             {
                 HUDOverlayHandler.init();
@@ -52,11 +47,6 @@ public class Thirst
         }
 
         ItemInit.ITEMS.register(modBus);
-
-        if(ModList.get().isLoaded("create"))
-        {
-            CreateRegistry.register();
-        }
 
         ThirstTab.register(modBus);
 
@@ -96,14 +86,6 @@ public class Thirst
 
     private void clientSetup(final FMLClientSetupEvent event)
     {
-        if(ModList.get().isLoaded("create")){
-            event.enqueueWork(()-> new Object()
-            {
-                public void registerPonderPlugin(){
-                    PonderIndex.addPlugin(new ThirstPonderPlugin());
-                }
-            }.registerPonderPlugin());
-        }
         if(ModList.get().isLoaded("vampirism"))
         {
             ThirstBarRenderer.checkIfPlayerIsVampire = true;
@@ -118,7 +100,7 @@ public class Thirst
     //this is from Create but it looked very cool
     public static ResourceLocation asResource(String path)
     {
-        return new ResourceLocation(ID, path);
+        return ResourceLocation.fromNamespaceAndPath(ID, path);
     }
     private void onRegisterClientTooltipComponentFactories(RegisterClientTooltipComponentFactoriesEvent event) {
         TooltipOverlayHandler.register(event);
