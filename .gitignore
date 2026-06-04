@@ -20,10 +20,14 @@ build
 # other
 eclipse
 run
+logs/
 build.log
+build_output.log
+.DS_Store
 
 # Files from Forge MDK
 forge*changelog.txt
 
 # Reference directories
 net/
+libs/
