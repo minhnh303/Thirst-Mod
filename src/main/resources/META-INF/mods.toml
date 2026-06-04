@@ -27,7 +27,7 @@ Modern take on the thirst-bar mechanic, compatible with a lot of contemporary mo
 [[dependencies.thirst]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.21,1.21.1)"
+    versionRange="[1.21,1.21.2)"
     ordering="NONE"
     side="BOTH"
 [[dependencies.thirst]]
