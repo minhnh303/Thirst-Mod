@@ -9,17 +9,17 @@ Before making any code changes or performing migration tasks, consult the index 
 ## Build & Run
 
 ```bash
-./gradlew build                # produces build/libs/YetAnotherThirst-1.20.1-1.4.0.jar
+./gradlew build                # produces build/libs/YetAnotherThirst-<mod_version>.jar
 ./gradlew runClient            # launch Minecraft client with mod loaded
 ./gradlew runServer            # launch dedicated server
 ./gradlew runData              # regenerate data (outputs to src/generated/resources/)
 ```
 
-Gradle wrapper is the only build tool — do not use Maven. Java 17 required. No test suite exists.
+Gradle wrapper is the only build tool — do not use Maven. Java 21 required. No test suite exists.
 
 ## Architecture
 
-**Minecraft Forge 1.20.1 mod** using SpongePowered Mixin and ForgeGradle 6.
+**Minecraft Forge 1.21 mod** using SpongePowered Mixin and ForgeGradle 6.
 
 ### Package layout
 
